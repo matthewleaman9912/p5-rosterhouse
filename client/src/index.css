@@ -1,0 +1,240 @@
+.navbar {
+    border: 2px solid;
+    border-color: darkorange;
+    text-align: center;
+    background-color: darkorange;
+}
+.nav-link {
+    border: 1px solid;
+    border-color: darkblue;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    background-color: darkblue;
+    margin-left: 15px;
+}
+.Home {
+    font: bold;
+    text-align: center;
+    font-size: 50px;
+    color: darkorange;
+    background-color: darkblue;
+}
+.title-home {
+    text-align: center;
+    color: darkorange;
+    font-size: 50px;
+}
+.listing {
+    text-align: left;
+    color: darkblue;
+    padding-left: 250px;
+    font-size: 50px;
+    margin-right: 150px
+}
+.infocontainer {
+    border: 2px solid;
+    background-color: darkorange;
+    margin-right: 100px;
+    margin-left: 100px;
+}
+.logo {
+    max-width: 300px;
+    max-height: 300px;
+    padding-top: 50px;
+}
+.error {
+    color: red;
+}
+.loginform {
+    border: 2px solid darkblue;
+    text-align: center;
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-top: 100px;
+    background-color: darkorange;
+}
+.loginbutton {
+    background-color: darkblue;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.input-login {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.loginpage {
+    background-color: darkblue;
+    padding-bottom: 300px;
+    margin-bottom: 300px;
+}
+.app {
+    background-color: darkblue;
+    margin: 0;
+}
+.coachlist {
+    background-color: darkblue;
+    padding-left: 100px;
+    padding-right: 100px;
+    margin-top: 25px;
+}
+.coachcontainer {
+    border: 2px solid darkorange;
+    text-align: center;
+    padding-right: 50px;
+    margin-right: 50px;
+    margin-top: 10px;
+    background-color: darkorange;
+    color: white;
+}
+.coachpage {
+    background-color: darkblue;
+}
+.coachtitle {
+    color: darkorange;
+    text-align: center;
+    font-size: xx-large;
+}
+.teamcontainer {
+    border: 2px solid darkorange;
+    background-color: darkorange;
+    margin-top: 10px;
+    text-align: center;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+.sportyteamrosters {
+    background-image: url("https://thumbs.dreamstime.com/b/sports-background-sport-arena-football-stadium-91094142.jpg");
+    color: white;
+    min-height: 400px;
+    margin-right: 50px;
+    max-width: 700px;
+    text-align: center;
+    margin-left: 175px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.businessteamrosters {
+   background-image: url("https://mrbusinessmagazine.com/wp-content/uploads/2024/01/How-sports-marketing-agencies-can-include-technology-in-their-business-strategies.jpg");
+   color: white;
+   min-height: 400px;
+   margin-right: 50px;
+   max-width: 700px;
+   text-align: center;
+   margin-left: 175px;
+   margin-top: 25px;
+   margin-bottom: 25px;
+}
+.darkteamrosters {
+    background-color: black;
+    color: white;
+    min-height: 400px;
+    margin-right: 50px;
+    max-width: 700px;
+    text-align: center;
+    margin-left: 175px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.lightteamrosters {
+    background-color: lightskyblue;
+    color: white;
+    min-height: 400px;
+    margin-right: 50px;
+    max-width: 700px;
+    text-align: center;
+    margin-left: 175px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.p {
+    border: 2px solid darkorange;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 100px;
+    background-color: darkblue;
+    font-size: x-large;
+}
+.teamtitle {
+    font-size: xx-large;
+    color: white;
+}
+.newteamform {
+    background-color: darkorange;
+    text-align: center;
+    margin-top: 15px;
+    border: 2px solid darkorange;
+    margin-bottom: 100px;
+}
+.teamtitle {
+    font-size: 50px;
+    text-align: center;
+}
+.newteamtitle {
+    font-size: 50px;
+    color: white;
+}
+.logoutpage {
+    border: 2px solid darkorange;
+    color: white;
+    text-align: center;
+}
+.rosters {
+    border: 2px solid darkorange;
+    background-color: darkorange;
+    margin: 10px;
+    margin-right: 100px;
+    margin-left: 100px;
+    text-align: center;
+    color: white;
+}
+.rosterteamtitle {
+    font-size: 40px;
+}
+.signupform {
+    border: 2px solid darkorange;
+    text-align: center;
+    color: white;
+}
+.input-signup {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.signupbutton {
+    margin-top: 5px;
+    margin-bottom: 25px;
+    color: darkblue;
+    background-color: darkorange;
+}
+.coachrosters {
+    background-image: url("https://static.vecteezy.com/system/resources/previews/000/113/397/non_2x/playbook-graphics-handdrawn-plays-vector.jpg");
+    border: 2px solid darkblue;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.playercontainer {
+    border: 1px solid darkblue;
+    margin-left: 300px;
+    margin-right: 300px;
+    background-color: white;
+    color: darkblue;
+}
+.rostery {
+    border: 1px solid darkblue;
+    margin-right: 25px;
+    background-color: darkblue;
+}
+.coachtop {
+    font-size: 40px;
+    background-color: darkblue;
+}
+.newteambutton {
+    background-color: darkblue;
+    color: white;
+}
+.rostertitle {
+    font-size: 40px;
+    text-align: center;
+    color: white;
+}
