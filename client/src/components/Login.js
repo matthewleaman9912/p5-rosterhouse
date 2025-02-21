@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { ErrorContext } from "./App";
+import { MyContext } from "./App";
 
-function Login({ onLogin, setError }) {
-    const error = useContext(ErrorContext)
+function Login({ }) {
+    const {error, setError, setLogin, setUser} = useContext(MyContext)
   
     const validationSchema = yup.object({
         username: yup.string()
@@ -36,13 +36,25 @@ function Login({ onLogin, setError }) {
             })
             .then(data => {
                 if (data.success){
-                    onLogin();
+                    setLogin(true)
                     resetForm();
                     setError(false)
-                }
+                    fetch('/currentuser')
+                    .then((r) => r.json())
+                    .then((data) => {
+                    if (data.unsuccessful) {
+                        setLogin(false)
+                    }
+                    else {
+                        setLogin(true)
+                        setUser(data)
+                        console.log(data)
+                    }})
+                    }
                 else {
                     resetForm();
                     setError(true)
+                    setLogin(false)
                 }
             })
             .catch(() => {
@@ -53,6 +65,7 @@ function Login({ onLogin, setError }) {
             });
         },
     });
+    
   
     return (
         <div className="loginpage">

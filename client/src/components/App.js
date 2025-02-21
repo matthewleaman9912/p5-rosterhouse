@@ -12,12 +12,7 @@ import NewTeam from "./NewTeam";
 import NewRoster from "./NewRoster";
 import RosterList from "./RosterList";
 
-export const CoachContext = createContext(null);
-export const TeamContext = createContext(null);
-export const RosterContext = createContext(null);
-export const LoginContext = createContext(null);
-export const UserContext = createContext(null);
-export const ErrorContext = createContext(null);
+export const MyContext = createContext(null);
 
 
 function App() {
@@ -27,26 +22,27 @@ function App() {
     const [login, setLogin] = useState(false);
     const [user, setUser] = useState([]);
     const [error, setError] = useState(false);
-    const [increment, setIncrement] = useState(0);
-   
+    const [players, setPlayers] = useState([]);
+
+    
 
     useEffect(() => {
         fetch('/coaches')
         .then((r) => r.json())
         .then((data) => setCoaches(data));
-    }, [increment]);
+    }, []);
 
     useEffect(() => {
         fetch('/teams')
         .then((r) => r.json())
         .then((data) => setTeams(data));
-    }, [increment]);
+    }, []);
 
     useEffect(() => {
         fetch('/rosters')
         .then((r) => r.json())
         .then((data) => setRosters(data));
-    }, [increment]);
+    }, []);
 
     useEffect(() => {
         fetch('/currentuser')
@@ -59,62 +55,65 @@ function App() {
             else {
                 setLogin(true)
                 setUser(data)
-                console.log(data)
             }
         })
-    }, [increment]);
-    
+    }, []);
+
+    useEffect(() => {
+        fetch('/players')
+        .then((r) => r.json())
+        .then((data) => setPlayers(data))
+    }, [])
 
     function onSignupSubmit(data) {
-        setCoaches(...coaches, data)
-        setIncrement((increment) => increment + 1)
+        const newCoach = [...coaches, data]
+        setCoaches(newCoach)
     };
 
     function onNewTeam(data) {
-        setTeams(...teams, data)
-        setIncrement((increment) => increment + 1)
+        const newTeams = [...teams, data]
+        setTeams(newTeams)
     };
 
     function onLogin() {
         setLogin(true)
-        setIncrement((increment) => increment + 1)
     };
 
     function onNewRoster(data) {
-        setRosters(...rosters, data)
-        setIncrement((increment) => increment + 1)
+        const newRosters = [...rosters, data]
+        setRosters(newRosters)
     };
 
     function onLogout() {
         setLogin(false)
-        setIncrement((increment) => increment + 1)
     };
 
     function handleUpdateRoster(updatedRoster) {
         const updatedRosters = rosters.map((roster) => {
             if (roster.id === updatedRoster.id) {
+                setCoaches(coaches)
                 return updatedRoster;
             } else {
                 return roster;
             }
         })
         setRosters(updatedRosters);
-        setIncrement((increment) => increment + 1)
     };
 
     function handleDeleteRoster(id){
         const updatedRosters = rosters.filter((roster) => roster.id !== id)
-        setIncrement((increment) => increment + 1)
         setRosters(updatedRosters)
+        setCoaches(coaches)
     };
 
-    function handleAddPlayer() {
-        return setIncrement((increment) => increment + 1)
+    function handleAddPlayer(data) {
+        setPlayers([...players, data])
     }
     
 
     return (
         <div className="app">
+            <MyContext.Provider value={{ coaches, setCoaches, user, setUser, login, setLogin, error, setError, teams, setTeams, rosters, setRosters }}>
             {login ? (
                 <NavbarLogIn />
             ) : (
@@ -122,66 +121,37 @@ function App() {
             )}
             <Switch>
                 <Route exact path="/coaches">
-                    <CoachContext.Provider value={coaches}>
-                        <CoachList />
-                    </CoachContext.Provider>
+                    <CoachList />
                 </Route>
                 <Route exact path="/">
-                    <UserContext.Provider value={user}>
-                    <LoginContext.Provider value={login}>
-                        <Home />
-                    </LoginContext.Provider>
-                    </UserContext.Provider>
+                    <Home />
                 </Route>
                 <Route exact path="/login">
-                    <ErrorContext.Provider value={error}>
-                        <Login onLogin={onLogin} setError={setError}/>
-                    </ErrorContext.Provider>
+                    <Login onLogin={onLogin} setError={setError}/>
                 </Route>
                 <Route exact path="/signup">
-                    <ErrorContext.Provider value={error}>
-                        <Signup setError={setError} onSignupSubmit={onSignupSubmit} onLogin={onLogin}/>
-                    </ErrorContext.Provider>
+                    <Signup setError={setError} onSignupSubmit={onSignupSubmit} onLogin={onLogin}/>
                 </Route>
                 <Route exact path="/logout">
-                    <LoginContext.Provider value={login}>
-                        <Logout onLogout={onLogout} />
-                    </LoginContext.Provider>
+                    <Logout onLogout={onLogout} />
                 </Route>
                 <Route exact path="/teams">
-                    <UserContext.Provider value={user}>
-                    <LoginContext.Provider value={login}>
-                    <TeamContext.Provider value={teams}>
                         <TeamList />
-                    </TeamContext.Provider>
-                    </LoginContext.Provider>
-                    </UserContext.Provider>
                 </Route>
                 <Route exact path="/newteam">
-                    <ErrorContext.Provider value={user}>
-                    <TeamContext.Provider value={teams}>
                         <NewTeam setError={setError} onNewTeam={onNewTeam} />
-                    </TeamContext.Provider>
-                    </ErrorContext.Provider>
                 </Route>
                 <Route exact path="/newroster">
-                    <UserContext.Provider value={user}>
-                    <TeamContext.Provider value={teams}>
                         <NewRoster onNewRoster={onNewRoster} />
-                    </TeamContext.Provider>
-                    </UserContext.Provider>
                 </Route>
                 <Route exact path="/rosters">
-                    <RosterContext.Provider value={rosters}>
-                    <UserContext.Provider value={user}>
                         <RosterList handleUpdateRoster={handleUpdateRoster} handleDeleteRoster={handleDeleteRoster} handleAddPlayer={handleAddPlayer}/>
-                    </UserContext.Provider>
-                    </RosterContext.Provider>
                 </Route>
                 <Route exact path='/newteam'>
                     <NewTeam onNewTeam={onNewTeam} />
                 </Route>
             </Switch>
+            </MyContext.Provider>
         </div>
     )
 }

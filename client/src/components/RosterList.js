@@ -1,13 +1,17 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Roster from "./Roster";
-import { RosterContext, UserContext } from "./App";
+import { MyContext } from "./App";
 
 function RosterList({ handleUpdateRoster, handleDeleteRoster, handleAddPlayer }) {
-    const rosters = useContext(RosterContext)
-    const user = useContext(UserContext)
-    
+    const {rosters, setRosters, user} = useContext(MyContext)
 
-    const setRosters = rosters.map((roster) => {
+    useEffect(() => {
+        fetch('/rosters')
+        .then((r) => r.json())
+        .then((data) => setRosters(data));
+    }, []);
+
+    const setRoster = rosters.map((roster) => {
         if (roster.coach_id === user.id) {
                 return (<Roster
                     key={roster.id}
@@ -29,7 +33,7 @@ function RosterList({ handleUpdateRoster, handleDeleteRoster, handleAddPlayer })
     return(
         <ul className="rosterlist">
             <h1 className="rostertitle">Rosters</h1>
-            {setRosters}
+            {setRoster}
         </ul>
     )
 }

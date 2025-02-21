@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PlayerList from "./PlayerList";
 import EditRoster from "./EditRoster";
 import NewPlayer from "./NewPlayer";
+import { MyContext } from "./App";
 
 function Roster({ level, coach, roster_size, teamcity, teammascot, players, id, year, handleUpdateRoster, handleDeleteRoster, handleAddPlayer }) {
+    const {setCoaches} = useContext(MyContext)
     const [isEditing, setIsEditing] = useState(false)
     const [isShowing, setIsShowing] = useState(false)
 
@@ -12,6 +14,12 @@ function Roster({ level, coach, roster_size, teamcity, teammascot, players, id, 
             method: "DELETE",
         });
         handleDeleteRoster(id);
+        fetch('/coaches')
+        .then((r) => r.json())
+        .then((data) => {
+            const coachesList = data
+            setCoaches(coachesList)
+        })
     }
 
     return (

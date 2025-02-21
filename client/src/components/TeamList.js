@@ -1,31 +1,76 @@
 import Team from "./Team";
-import { LoginContext, TeamContext, UserContext } from "./App";
-import { useContext } from "react";
-import NewTeam from "./NewTeam";
+import { MyContext } from "./App";
+import { useContext, useEffect, useState } from "react";
+
 
 function TeamList({ }) {
-    const teams = useContext(TeamContext)
-    const login = useContext(LoginContext)
-    const user = useContext(UserContext)
+    const {teams, setTeams, login, user, coaches} = useContext(MyContext)
+
+    const [isShowing, setIsShowing] = useState(false)
+
+    function handleShowing(e) {
+        e.preventDefault()
+        setIsShowing(!isShowing)
+    }
+
+    const allTeams = teams.map((team) => {
+        return(
+            <>
+                <Team
+                key={team.id}
+                city={team.city}
+                mascot={team.mascot}
+                wins={team.wins}
+                theme={team.theme}
+                rosters={team.rosters}
+                />
+            </>
+        )
+    })
+
+
     return(
         <div className="teampage">
             <h1 className="teamtitle">Teams</h1>
-            <ul className="teamlist">
-                {teams.map((team) => (
-                    <>
-                    <Team
-                        key={team.id}
-                        city={team.city}
-                        mascot={team.mascot}
-                        wins={team.wins}
-                        theme={team.theme}
-                        rosters={team.rosters}
-                        login={login}
-                        user={user}
-                    /> 
-                    </>
-                ))}
-            </ul>
+            {login ? (
+                <div>
+                <div>
+                {isShowing ? (
+                    <div>
+                <button className='teambutton' type='submit' onClick={handleShowing}>View My Teams</button>
+                <ul className="teamlist">
+                    {allTeams}
+                </ul>
+                </div>
+                ) : (
+                    <div>
+                    <button className='teambutton' type='submit' onClick={handleShowing}>View All Teams</button>
+                <ul className="teamlist">
+                    {coaches.map((coach) => {
+                            {if (coach.id === user.id) {
+                                return(
+                                    coach.teams.map((team) => (
+                                    <Team
+                                        key={team.id}
+                                        city={team.city}
+                                        mascot={team.mascot}
+                                        wins={team.wins}
+                                        theme={team.theme}
+                                        rosters={coach.rosters}
+                                    />
+                            )
+                            ))}}})}
+                </ul>
+                </div>
+                )}
+                </div>
+                </div>
+            ):(
+                <ul className="teamlist">
+                    {allTeams}
+                </ul>
+            )}
+            
         </div>
     )
 }

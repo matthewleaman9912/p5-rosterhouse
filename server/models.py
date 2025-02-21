@@ -31,8 +31,9 @@ class Team(db.Model, SerializerMixin):
     theme = db.Column(db.String)
 
     rosters = db.relationship('Roster', back_populates='team')
-
-    serialize_rules = ('-coaches.teams', '-rosters.teams',)
+    coaches = db.relationship('Coach', secondary='rosters', viewonly=True)
+    
+    serialize_rules = ('-rosters.teams', '-coaches.teams', '-rosters.coaches', '-coaches.rosters')
 
 class Coach(db.Model, SerializerMixin, UserMixin):
     __tablename__ = 'coaches'
@@ -45,8 +46,8 @@ class Coach(db.Model, SerializerMixin, UserMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     rosters = db.relationship('Roster', back_populates='coach')
-
-    serialize_rules = ('-rosters.coaches', '-teams.coaches',)
+    teams = db.relationship('Team', secondary='rosters', viewonly=True)
+    serialize_rules = ('-rosters.coaches', '-teams.coaches', '-teams.rosters', '-rosters.teams',)
 
     @hybrid_property
     def password_hash(self):

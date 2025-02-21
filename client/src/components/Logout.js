@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { LoginContext } from "./App";
+import { MyContext } from "./App";
 
 function Logout({ onLogout }) {
-    const login = useContext(LoginContext)
+    const {login, setLogin, setUser} = useContext(MyContext)
 
     function handleLogOut (e) {
         e.preventDefault()
@@ -10,8 +10,8 @@ function Logout({ onLogout }) {
             method: "DELETE"
         })
         .then(r => {
-            onLogout()
-            
+            setLogin(false)
+            setUser([])
         })
         };
     return (
@@ -23,8 +23,7 @@ function Logout({ onLogout }) {
                <button onClick={handleLogOut}> Log Out </button>
                </div>
             ) : (
-                
-                 <h1> Thank you for visiting RosterHouse! </h1>
+                <h1> Thank you for visiting RosterHouse! </h1>
             )}
         </div>
     )

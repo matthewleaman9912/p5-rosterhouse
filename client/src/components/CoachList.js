@@ -1,9 +1,16 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Coach from "./Coach";
-import { CoachContext } from "./App";
+import { MyContext } from "./App";
 
 function CoachList() {
-    const coaches = useContext(CoachContext);
+    const {coaches, setCoaches} = useContext(MyContext);
+
+    useEffect(() => {
+        fetch('/coaches')
+        .then((r) => r.json())
+        .then((data) => setCoaches(data));
+    }, []);
+    
     return(
         <div className="coachpage">
             <h1 className="coachtitle">Coaches</h1>

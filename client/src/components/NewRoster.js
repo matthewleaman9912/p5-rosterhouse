@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { TeamContext, UserContext } from "./App";
+import { MyContext } from "./App";
+import { NavLink } from "react-router-dom";
 
 function NewRoster({ onNewRoster }) {
-    const user = useContext(UserContext)
-    const teams = useContext(TeamContext)
+    const {user, login, teams, setTeams, setCoaches} = useContext(MyContext)
 
     const validationSchema = yup.object({
         roster_size: yup.number()
@@ -45,12 +45,22 @@ function NewRoster({ onNewRoster }) {
             .then(data => {
                 onNewRoster(data)
                 resetForm();
-            })
+                console.log(data)
+                fetch('/teams')
+                .then((r) => r.json())
+                .then((data) => setTeams(data))
+                fetch('/coaches')
+                .then((r) => r.json())
+                .then((data) => setCoaches(data))
+                }
+            )
             .finally(() => setSubmitting(false));
         },
     });
   
     return (
+        <>
+        {login ? (
         <form onSubmit={formik.handleSubmit} className="loginform">
             <h2>Create A New Roster</h2>
             {formik.errors.roster_size && <div>{formik.errors.roster_size}</div>}
@@ -102,6 +112,10 @@ function NewRoster({ onNewRoster }) {
              Create a New Roster
             </button>
         </form>
+        ):(
+            <NavLink to="/login" className="redirectlink">Please Login or Signup to Access! </NavLink>
+        )}
+        </>
     );
   }
 export default NewRoster;

@@ -51,7 +51,7 @@ class Teams(Resource):
         db.session.add(new_team)
         db.session.commit()
         team_dict = new_team.to_dict()
-        return make_response(jsonify(team_dict, {'status': 201}))
+        return make_response(jsonify(team_dict))
     
 api.add_resource(Teams, '/teams')
 
@@ -98,7 +98,7 @@ class Rosters(Resource):
         db.session.add(new_roster)
         db.session.commit()
         roster_dict = new_roster.to_dict()
-        return make_response(jsonify(roster_dict, 201))
+        return make_response(jsonify(roster_dict))
     
 api.add_resource(Rosters, '/rosters')
 
@@ -135,7 +135,6 @@ class RostersById(Resource):
 api.add_resource(RostersById, '/rosters/<int:id>')
 
 class Login(Resource):
-   
 
     def post(self):
         json = request.get_json()
@@ -157,7 +156,6 @@ api.add_resource(Login, '/login')
 
 
 class Logout(Resource):
-
     @login_required
     def delete(self):
         logout_user()
@@ -167,10 +165,10 @@ class Logout(Resource):
 api.add_resource(Logout, '/logout')
 
 class CurrentUser(Resource):
+    
     def get(self):
-        user = current_user
-        if user:
-            return make_response(jsonify(user.to_dict()))
+        if current_user:
+            return make_response(jsonify(current_user.to_dict()))
         else: 
             return {'data': 'unsuccessful'}
 

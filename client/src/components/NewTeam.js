@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { ErrorContext, TeamContext } from "./App";
+import { MyContext } from "./App";
+import { NavLink } from "react-router-dom";
 
-function NewTeam({ onNewTeam, setError }) {
-    const error = useContext(ErrorContext)
-    const teams = useContext(TeamContext)
+function NewTeam({ }) {
+    const {error, setError, login, teams, setTeams, user} = useContext(MyContext)
     
     const validationSchema = yup.object({
         city: yup.string()
@@ -25,6 +25,8 @@ function NewTeam({ onNewTeam, setError }) {
             mascot: '',
             wins: '',
             theme: '',
+            rosters: [],
+            coaches: [user.id],
         },
         validationSchema,
         enableReinitialize: true,
@@ -38,9 +40,10 @@ function NewTeam({ onNewTeam, setError }) {
                 })
             .then(res => res.json())
             .then(data => {
-                onNewTeam(data);
+                setTeams([...teams, data]);
                 resetForm();
                 setError(false);
+                console.log(data)
             })
             .catch(() => {
                 setError(true);
@@ -52,13 +55,18 @@ function NewTeam({ onNewTeam, setError }) {
 
   return (
     <>
-    <form onSubmit={formik.handleSubmit} className="newteamform">
+    {login ? (
+      <form onSubmit={formik.handleSubmit} className="newteamform">
       <h2 className="newteamtitle">Create A New Team</h2>
       {error ? (
         <><p>The new team must have a unique mascot and city!</p></>
       ) : (
         <></>
       )}
+      {formik.errors.coaches && <div>{formik.errors.coaches}</div>}
+            <div name="coaches" value={formik.values.coaches} onChange={formik.handleChange}>
+            </div>
+            <br/>
       {formik.errors.city && <div>{formik.errors.city}</div>}
       <label>City: </label>
       <input
@@ -98,11 +106,17 @@ function NewTeam({ onNewTeam, setError }) {
         <option>sporty</option>
         <option>business</option>
       </select>
+      <div name='rosters' value={formik.values.rosters}/>
       <br/>
+      
       <button className="newteambutton" type="submit" disabled={formik.isSubmitting} >
         Create New Team
       </button>
     </form>
+    ):(
+      <NavLink to="/login" className="redirectlink">Please Login or Signup to Access! </NavLink>
+    )}
+    
     </>
   );
 }

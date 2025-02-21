@@ -1,9 +1,8 @@
 import { useContext } from "react";
-import { LoginContext, UserContext } from "./App";
+import { MyContext } from "./App";
 
 function Home({ }) {
-    const user = useContext(UserContext)
-    const login = useContext(LoginContext)
+    const {user, login} = useContext(MyContext)
     return(
         <div className="Home">
             <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*3Z3JbBRe6edB5akQAgWpOw.jpeg" className="logo" />

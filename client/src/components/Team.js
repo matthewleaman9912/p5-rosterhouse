@@ -1,11 +1,13 @@
 
-function Team({ city, mascot, theme, rosters, login, user }) {
+function Team({ city, mascot, theme, rosters }) {
+
     return (
         <div>
             <ul className="teamcontainer">
                 <p className="teamtitle">{city} {mascot} </p>
                     <ul>
                         {rosters.map((roster) => {
+                            if (roster.team.city === city) {
                             if (theme === "sporty"){
                                 return(
                                     <div key={roster.id} className="sportyteamrosters">
@@ -50,6 +52,7 @@ function Team({ city, mascot, theme, rosters, login, user }) {
                                     </div>
                                 )
                             }
+                        }
                         })}
                     </ul>
             </ul>

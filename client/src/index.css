@@ -238,3 +238,15 @@
     text-align: center;
     color: white;
 }
+.redirectlink {
+    font-size: 50px;
+    text-align: center;
+    margin-left: 25%;
+    color: white;
+}
+.teambutton {
+    text-align: center;
+    margin-left: 47%;
+    color: white;
+    background-color: darkorange;
+}

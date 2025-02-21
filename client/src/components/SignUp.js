@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { ErrorContext } from "./App";
+import { MyContext } from "./App";
 
 
 
-function Signup({ onSignupSubmit, onLogin, setError }) {
-    const error = useContext(ErrorContext)
+function Signup({ onSignupSubmit, onLogin }) {
+    const {error, setError, setLogin, setUser} = useContext(MyContext)
+
+    setError(false)
 
     const validationSchema = yup.object({
         first_name: yup.string()
@@ -50,7 +52,19 @@ function Signup({ onSignupSubmit, onLogin, setError }) {
                 onLogin();
                 resetForm();
                 setError(false)
-                
+                fetch('/currentuser')
+                .then((r) => r.json())
+                .then((data) => {
+                setLogin(false)
+                if (data.unsuccessful) {
+                  setLogin(false)
+                }
+                else {
+                  setLogin(true)
+                  setUser(data)
+                  console.log(data)
+                }
+              })  
             })
             .catch(() => {
               setError(true)
@@ -62,7 +76,6 @@ function Signup({ onSignupSubmit, onLogin, setError }) {
           );
         },
     });
-
 
   return (
     <div className="signuppage">
@@ -102,7 +115,7 @@ function Signup({ onSignupSubmit, onLogin, setError }) {
       <label>Username: </label>
       {error ? (
         <>
-        <input
+          <input
           className="input-signup"
           name="username"
           value={formik.values.username}
@@ -113,7 +126,7 @@ function Signup({ onSignupSubmit, onLogin, setError }) {
         </>
         ) : (
           <>
-          <input
+           <input
             className="input-signup"
             name="username"
             value={formik.values.username}

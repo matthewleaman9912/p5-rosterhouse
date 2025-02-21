@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { useFormik } from 'formik';
 import * as yup from "yup";
-import { RosterContext } from "./App";
+import { MyContext } from "./App";
 
 function NewPlayer({ handleAddPlayer, id, teamcity, teammascot, year }) {
-    const rosters = useContext(RosterContext)
+    const {setRosters} = useContext(MyContext)
 
     const validationSchema = yup.object({
         first_name: yup.string()
@@ -42,6 +42,9 @@ function NewPlayer({ handleAddPlayer, id, teamcity, teammascot, year }) {
                 console.log(data);
                 resetForm();
                 handleAddPlayer();
+                fetch('/rosters')
+                .then((r) => r.json())
+                .then((data) => setRosters(data))
             })
             .catch(() => {
               return("nope")
